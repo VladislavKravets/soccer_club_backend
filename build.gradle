@@ -23,6 +23,8 @@ repositories {
 
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -34,6 +36,7 @@ dependencies {
     implementation 'commons-fileupload:commons-fileupload:1.4'
 
     implementation 'commons-io:commons-io:2.5'
+    implementation 'org.testng:testng:7.1.0'
 
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -49,20 +52,6 @@ dependencies {
     implementation 'com.sun.xml.bind:jaxb-core:2.2.11'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-//    implementation 'io.swagger.core.v3:swagger-annotations:2.1.6'
-//    implementation 'org.springdoc:springdoc-openapi-ui:1.5.2'
-//	implementation 'org.springframework.boot:spring-boot-starter-web'
-////	implementation 'io.jsonwebtoken:jjwt:0.9.1'  // Для генерації JWT токенів
-////	implementation 'org.springframework.boot:spring-boot-starter'
-////	implementation 'javax.servlet:javax.servlet-api:4.0.1'
-//	implementation 'io.jsonwebtoken:jjwt:0.10.7' // Используйте актуальную версию
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
-////	implementation 'org.springframework.security:spring-security-config:5.5.1'
-////	implementation 'io.jsonwebtoken:jjwt-api:1.1.1'
-////	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
-////	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
-//	implementation 'org.postgresql:postgresql'
-//
 //	// flyway
 //	implementation 'org.flywaydb:flyway-core:9.10.0'
 //
@@ -85,6 +74,11 @@ dependencies {
 //	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 //	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    testImplementation 'jakarta.validation:jakarta.validation-api:2.0.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
 tasks.named('test') {

@@ -1,8 +1,10 @@
 package com.example.soccer_club_backend.service;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -10,7 +12,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Random;
 
 @Service
@@ -27,7 +28,8 @@ public class FileStorageService {
 
         try {
             String projectDirectory = System.getProperty("user.dir");
-            String directoryPath = projectDirectory + "/src/main/resources/static/res/";
+            String directoryPath = projectDirectory + "/res/";
+//            String directoryPath = projectDirectory + "/src/main/resources/static/res/";
 
             File directory = new File(directoryPath);
             if (!directory.exists()) {
@@ -44,6 +46,7 @@ public class FileStorageService {
                 file.transferTo(dest);
 
                 return "http://localhost:8080/res/" + generatedFileName; // Здесь указывается базовый URL вашего бэкенда и путь к файлу
+//                return generatedFileName; // Здесь указывается базовый URL вашего бэкенда и путь к файлу
             }else
                 throw new IllegalArgumentException("Файл повинен бути з розширенням .jpg .png ");
         } catch (IOException e) {
@@ -52,7 +55,34 @@ public class FileStorageService {
         }
     }
 
-    public static String generateRandomString(int length) {
+    public ResponseEntity<byte[]> readFile(String fileName) {
+        try {
+            String projectDirectory = System.getProperty("user.dir");
+            String directoryPath = projectDirectory + "/res/";
+
+            Path filePath = Paths.get(directoryPath, fileName);
+
+            FileSystemResource fileResource = new FileSystemResource(filePath.toFile());
+
+            // Проверяем, существует ли файл
+            if (fileResource.exists()) {
+                byte[] fileContent = Files.readAllBytes(filePath);
+
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
+                        .contentType(MediaType.IMAGE_JPEG)  // Замените на соответствующий MediaType вашему типу файла
+                        .body(fileContent);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            // Обработка ошибок загрузки файла
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    private String generateRandomString(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder randomString = new StringBuilder();
 
@@ -68,7 +98,8 @@ public class FileStorageService {
     public boolean deleteFile(String fileUrl) {
         try {
             String projectDirectory = System.getProperty("user.dir");
-            String directoryPath = projectDirectory + "/src/main/resources/static/res/";
+            String directoryPath = projectDirectory + "/res/";
+//            String directoryPath = projectDirectory + "/src/main/resources/static/res/";
 
             // Извлекаем имя файла из URL
             String fileName = fileUrl.replace("http://localhost:8080/res/", "");

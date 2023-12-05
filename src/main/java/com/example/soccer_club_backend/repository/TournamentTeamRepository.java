@@ -27,8 +27,10 @@ public interface TournamentTeamRepository extends JpaRepository<TournamentTeam, 
     @Query(nativeQuery = true, value = "SELECT ft.teamid, ft.teamname\n" +
             "FROM footballteams ft\n" +
             "LEFT JOIN tournamentteams tt ON ft.teamid = tt.teamid\n" +
-            "WHERE tt.teamid IS NULL\n" +
-            "  AND ft.teamid NOT IN (\n" +
+            "WHERE " +
+//            "tt.teamid IS NULL\n" +
+//            "  AND " +
+            "ft.teamid NOT IN (\n" +
             "    SELECT tt.teamid\n" +
             "    FROM tournamentteams tt\n" +
             "    WHERE tt.tournamentid = :tournamentId\n" +
