@@ -1,6 +1,7 @@
 package com.example.soccer_club_backend.repository;
 
 import com.example.soccer_club_backend.dtos.tournament.TournamentPhoto;
+import com.example.soccer_club_backend.dtos.tournamentteam.TournamentTeamByTournamentId;
 import com.example.soccer_club_backend.dtos.tournamentteam.TournamentTeamDTO;
 import com.example.soccer_club_backend.models.Card;
 import com.example.soccer_club_backend.models.TournamentTeam;
@@ -60,6 +61,31 @@ public interface TournamentTeamRepository extends JpaRepository<TournamentTeam, 
                 .map(tuple -> new TournamentTeamDTO(
                         tuple.get("teamid", Integer.class),
                         tuple.get("teamname", String.class)))
+                .collect(Collectors.toList());
+    }
+
+    @Query(nativeQuery = true, value = "SELECT\n" +
+            "    ft.teamid,\n" +
+            "    ft.teamname,\n" +
+            "    p.path AS photo_url\n" +
+            "FROM\n" +
+            "    public.tournamentteams tt\n" +
+            "JOIN\n" +
+            "    public.footballteams ft ON tt.teamid = ft.teamid\n" +
+            "JOIN\n" +
+            "    public.photos p ON ft.photo_id = p.photoid\n" +
+            "WHERE\n" +
+            "    tt.tournamentid = :tournamentId")
+    List<Tuple> gFootballTeamByTournamentId(int tournamentId);
+
+    default List<TournamentTeamByTournamentId> getFootballTeamByTournamentId(int tournamentId) {
+        List<Tuple> tuples = gFootballTeamByTournamentId(tournamentId);
+
+        return tuples.stream()
+                .map(tuple -> new TournamentTeamByTournamentId(
+                        tuple.get("teamid", Integer.class),
+                        tuple.get("teamname", String.class),
+                        tuple.get("photo_url", String.class)))
                 .collect(Collectors.toList());
     }
 

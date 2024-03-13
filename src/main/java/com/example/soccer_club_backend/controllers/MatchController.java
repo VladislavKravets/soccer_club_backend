@@ -1,5 +1,6 @@
 package com.example.soccer_club_backend.controllers;
 
+import com.example.soccer_club_backend.dtos.match.GetIDMatchDTO;
 import com.example.soccer_club_backend.dtos.match.MatchAllByTourId;
 import com.example.soccer_club_backend.dtos.match.MatchDTO;
 import com.example.soccer_club_backend.dtos.news.NewsDTO;
@@ -35,7 +36,7 @@ public class MatchController {
     }
 
     @GetMapping("/{matchId}")
-    public Match getMatchById(@PathVariable int matchId) {
+    public GetIDMatchDTO getMatchById(@PathVariable int matchId) {
         return matchService.getMatchById(matchId);
     }
 

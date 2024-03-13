@@ -1,6 +1,9 @@
 package com.example.soccer_club_backend.controllers;
 
 import com.example.soccer_club_backend.dtos.FootballTeamDTO;
+import com.example.soccer_club_backend.dtos.footballTeam.FootballTeamInfo;
+import com.example.soccer_club_backend.dtos.footballTeam.FootballTeams;
+import com.example.soccer_club_backend.dtos.footballTeam.MatchInfo;
 import com.example.soccer_club_backend.mapper.FootballTeamMapper;
 import com.example.soccer_club_backend.models.FootballTeam;
 import com.example.soccer_club_backend.service.FileStorageService;
@@ -24,13 +27,22 @@ public class FootballTeamController {
     private FootballTeamMapper footballTeamMapper;
 
     @GetMapping
-    public List<FootballTeamDTO> getAllFootballTeams() {
-        return footballTeamMapper.toFootballTeamDTO(footballTeamService.getAllFootballTeam());
+    public List<FootballTeams> getAllFootballTeams() {
+        return footballTeamService.getAllFootballTeam();
     }
 
     @GetMapping("/{footballTeamId}")
     public FootballTeamDTO getFootballTeamId(@PathVariable int footballTeamId) {
         return footballTeamMapper.toFootballTeam(footballTeamService.getFootballTeam(footballTeamId));
+    }
+    @GetMapping("/getInfo/{footballTeamId}")
+    public FootballTeamInfo getInfoByFootballTeamId(@PathVariable int footballTeamId) {
+        return footballTeamService.getInfoByFootballTeamId(footballTeamId);
+    }
+
+    @GetMapping("/getMatches/{footballTeamId}")
+    public List<MatchInfo> getMatchesByFootballTeamId(@PathVariable int footballTeamId) {
+        return footballTeamService.getMatchesByFootballTeamId(footballTeamId);
     }
 
     @PostMapping

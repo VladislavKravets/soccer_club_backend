@@ -2,7 +2,9 @@ package com.example.soccer_club_backend.service;
 import com.example.soccer_club_backend.dtos.player.PlayerStatsDTO;
 import com.example.soccer_club_backend.dtos.player.PlayerDTO;
 import com.example.soccer_club_backend.exceptions.ResourceNotFoundException;
+import com.example.soccer_club_backend.models.FootballTeam;
 import com.example.soccer_club_backend.models.Player;
+import com.example.soccer_club_backend.models.Tag;
 import com.example.soccer_club_backend.repository.FootballTeamRepository;
 import com.example.soccer_club_backend.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,24 +34,26 @@ public class PlayerService {
     }
 
     public Player createPlayer(PlayerDTO playerDTO) {
-        footballTeamRepository.findById(playerDTO.getTeamId()).orElseThrow(
-                () -> new ResourceNotFoundException("football team not found id : " + playerDTO.getTeamId())
-        );
-        Player player = new Player();
-        modelMapper.map(playerDTO,player);
-        return playerRepository.save(player);
+        FootballTeam footballTeam = footballTeamRepository.findByTeamName(playerDTO.getTeamName());
+
+        if(footballTeam == null) throw new IllegalArgumentException("Не знайдено такої команди");
+        Player newPlayer = new Player();
+        newPlayer.setTeamId(footballTeam.getTeamId());
+        modelMapper.map(playerDTO,newPlayer);
+        return playerRepository.save(newPlayer);
     }
 
     public Player updatePlayer(int playerId, PlayerDTO updatedPlayer) {
-        footballTeamRepository.findById(updatedPlayer.getTeamId()).orElseThrow(
-                () -> new ResourceNotFoundException("football team not found id : " + updatedPlayer.getTeamId())
-        );
+        FootballTeam footballTeam = footballTeamRepository.findByTeamName(updatedPlayer.getTeamName());
 
-        Player player = playerRepository.findById(playerId).orElseThrow(
+        if(footballTeam == null) throw new IllegalArgumentException("Не знайдено такої команди");
+
+        Player newPlayer = playerRepository.findById(playerId).orElseThrow(
                 () -> new ResourceNotFoundException("Player not found id : " + playerId)
         );
-        modelMapper.map(updatedPlayer, player); // copy field
-        return playerRepository.save(player);
+        newPlayer.setTeamId(footballTeam.getTeamId());
+        modelMapper.map(updatedPlayer, newPlayer); // copy field
+        return playerRepository.save(newPlayer);
     }
 
     public boolean deletePlayer(int playerId) {

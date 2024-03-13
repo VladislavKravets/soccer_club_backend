@@ -1,5 +1,6 @@
 package com.example.soccer_club_backend.service;
 
+import com.example.soccer_club_backend.dtos.match.GetIDMatchDTO;
 import com.example.soccer_club_backend.dtos.match.MatchAllByTourId;
 import com.example.soccer_club_backend.dtos.match.MatchDTO;
 import com.example.soccer_club_backend.exceptions.ResourceNotFoundException;
@@ -26,10 +27,8 @@ public class MatchService {
         return matchRepository.getAllMatchByTourId(tournamentId);
     }
 
-    public Match getMatchById(int matchId) {
-        return matchRepository.findById(matchId).orElseThrow(
-                () -> new ResourceNotFoundException("Match not found id : " + matchId)
-        );
+    public GetIDMatchDTO getMatchById(int matchId) {
+        return matchRepository.getMatchById(matchId);
     }
 
     public Match createMatch(MatchDTO matchDTO) {

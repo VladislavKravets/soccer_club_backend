@@ -1,5 +1,6 @@
 package com.example.soccer_club_backend.service;
 
+import com.example.soccer_club_backend.dtos.tournamentteam.TournamentTeamByTournamentId;
 import com.example.soccer_club_backend.dtos.tournamentteam.TournamentTeamDTO;
 import com.example.soccer_club_backend.exceptions.ResourceNotFoundException;
 import com.example.soccer_club_backend.models.TournamentTeam;
@@ -30,6 +31,10 @@ public class TournamentTeamService {
                 () -> new ResourceNotFoundException("Tournament not found id : " + tournamentId)
         );
         return tournamentTeamRepository.getTournamentTeamsByTeams(tournamentId);
+    }
+
+    public List<TournamentTeamByTournamentId> getAllTournamentTeamsByTournamentId(int tournamentId) {
+        return tournamentTeamRepository.getFootballTeamByTournamentId(tournamentId);
     }
 
     public List<TournamentTeamDTO> getTournamentTeamsByNotTeams(int tournamentId) {

@@ -2,6 +2,7 @@ package com.example.soccer_club_backend.controllers;
 
 import com.example.soccer_club_backend.dtos.tournament.TournamentDTO;
 import com.example.soccer_club_backend.dtos.tournamentteam.DeleteTournamentTeamDTO;
+import com.example.soccer_club_backend.dtos.tournamentteam.TournamentTeamByTournamentId;
 import com.example.soccer_club_backend.dtos.tournamentteam.TournamentTeamDTO;
 import com.example.soccer_club_backend.models.Tournament;
 import com.example.soccer_club_backend.models.TournamentTeam;
@@ -21,13 +22,12 @@ import java.util.List;
 @RequestMapping("/api/tournament-team")
 @AllArgsConstructor
 public class TournamentTeamController {
-
     private final TournamentTeamService tournamentTeamService;
 
     @GetMapping("/{tournamentId}")
-    public ResponseEntity<List<TournamentTeamDTO>> getAllTournamentTeam(@PathVariable int tournamentId) {
-        List<TournamentTeamDTO> tournaments = tournamentTeamService.getAllTournamentTeams(tournamentId);
-        return ResponseEntity.ok(tournaments);
+    public ResponseEntity<List<TournamentTeamByTournamentId>> getAllTournamentTeams(@PathVariable int tournamentId) {
+        List<TournamentTeamByTournamentId> tournamentsTeams = tournamentTeamService.getAllTournamentTeamsByTournamentId(tournamentId);
+        return ResponseEntity.ok(tournamentsTeams);
     }
 
     @GetMapping("/getAllTeamByNotTournamentTeam/{tournamentId}")

@@ -1,6 +1,9 @@
 package com.example.soccer_club_backend.service;
 
 import com.example.soccer_club_backend.dtos.FootballTeamDTO;
+import com.example.soccer_club_backend.dtos.footballTeam.FootballTeamInfo;
+import com.example.soccer_club_backend.dtos.footballTeam.FootballTeams;
+import com.example.soccer_club_backend.dtos.footballTeam.MatchInfo;
 import com.example.soccer_club_backend.exceptions.ResourceNotFoundException;
 import com.example.soccer_club_backend.models.FootballTeam;
 import com.example.soccer_club_backend.models.Photo;
@@ -9,6 +12,7 @@ import com.example.soccer_club_backend.repository.FootballTeamRepository;
 import com.example.soccer_club_backend.repository.PhotoRepository;
 import com.example.soccer_club_backend.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,14 +27,25 @@ public class FootballTeamService {
     private final FileStorageService fileStorageService;
     private final ModelMapper modelMapper = new ModelMapper();
 
-    public List<FootballTeam> getAllFootballTeam() {
-        return footballTeamRepository.findAll();
+    public List<FootballTeams> getAllFootballTeam() {
+        return footballTeamRepository.getAllFootballTeams();
     }
 
     public FootballTeam getFootballTeam(int footballTeamId) {
         return footballTeamRepository.findById(footballTeamId).orElseThrow(
                 () -> new ResourceNotFoundException("Football team not found : " + footballTeamId)
         );
+    }
+
+
+    @SneakyThrows
+    public FootballTeamInfo getInfoByFootballTeamId(int footballTeamId) {
+        return footballTeamRepository.getInfoByTeamId(footballTeamId);
+    }
+
+
+    public List<MatchInfo> getMatchesByFootballTeamId(int footballTeamId) {
+        return footballTeamRepository.getMatchesByTeamId(footballTeamId);
     }
 
     public FootballTeam createFootballTeam(FootballTeamDTO footballTeamDTO, MultipartFile file) {

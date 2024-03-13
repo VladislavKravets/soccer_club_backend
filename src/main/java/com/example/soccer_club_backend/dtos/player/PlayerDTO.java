@@ -21,7 +21,7 @@ public class PlayerDTO {
     @NotNull(message = "Not null shirt number")
     private Integer shirtNumber;
     @NotNull(message = "Not null team id")
-    private Integer teamId;
+    private String teamName;
     @NotNull(message = "Not null active")
     private Boolean active;
 }
