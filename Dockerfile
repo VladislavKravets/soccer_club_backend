@@ -22,7 +22,7 @@ WORKDIR /app
 COPY . .
 
 # Виконуємо збірку додатку
-RUN ./gradlew build --no-daemon
+RUN ./gradlew build
 
 # Використовуємо базовий образ OpenJDK для запуску
 FROM openjdk:17-jdk-slim
