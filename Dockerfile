@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get install -y wget
 # Завантажуємо та встановлюємо Gradle
 ENV GRADLE_VERSION=7.4
 RUN wget -q "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" && \
