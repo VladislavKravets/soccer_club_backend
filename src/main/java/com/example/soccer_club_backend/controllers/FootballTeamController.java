@@ -6,7 +6,6 @@ import com.example.soccer_club_backend.dtos.footballTeam.FootballTeams;
 import com.example.soccer_club_backend.dtos.footballTeam.MatchInfo;
 import com.example.soccer_club_backend.mapper.FootballTeamMapper;
 import com.example.soccer_club_backend.models.FootballTeam;
-import com.example.soccer_club_backend.service.FileStorageService;
 import com.example.soccer_club_backend.service.FootballTeamService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,7 +22,6 @@ import java.util.List;
 @AllArgsConstructor
 public class FootballTeamController {
     private FootballTeamService footballTeamService;
-    private FileStorageService fileStorageService;
     private FootballTeamMapper footballTeamMapper;
 
     @GetMapping
@@ -55,8 +53,7 @@ public class FootballTeamController {
     @Secured("ROLE_ADMIN")
     public FootballTeam updateTeam(@PathVariable int footballTeamId, @RequestBody @Valid FootballTeamDTO footballTeamDTO,
                                    @RequestPart("file") MultipartFile file) {
-        String fileName = fileStorageService.storeFile(file);
-        return footballTeamService.updateFootballTeam(footballTeamId, footballTeamDTO,fileName);
+        return footballTeamService.updateFootballTeam(footballTeamId, footballTeamDTO,file);
     }
 
     @DeleteMapping("/{footballTeamId}")

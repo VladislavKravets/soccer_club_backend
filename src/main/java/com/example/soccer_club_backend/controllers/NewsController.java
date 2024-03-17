@@ -4,7 +4,6 @@ import com.example.soccer_club_backend.dtos.news.NewsDTO;
 import com.example.soccer_club_backend.dtos.news.NewsGetAllDTO;
 import com.example.soccer_club_backend.mapper.NewsMapper;
 import com.example.soccer_club_backend.models.News;
-import com.example.soccer_club_backend.service.FileStorageService;
 import com.example.soccer_club_backend.service.NewsService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -25,7 +24,6 @@ public class NewsController {
 
     private final NewsService newsService;
     private final NewsMapper newsMapper;
-    private final FileStorageService fileStorageService;
 
     @GetMapping
     public List<NewsGetAllDTO> getAllNews() {
@@ -49,8 +47,7 @@ public class NewsController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Secured("ROLE_ADMIN")
     public News updateNews(@PathVariable int newsId, @RequestBody @Valid NewsDTO updatedNews, @RequestPart("file") MultipartFile file) {
-        String fileName = fileStorageService.storeFile(file);
-        return newsService.updateNews(newsId, updatedNews, fileName);
+        return newsService.updateNews(newsId, updatedNews, file);
     }
 
     @DeleteMapping("/{newsId}")

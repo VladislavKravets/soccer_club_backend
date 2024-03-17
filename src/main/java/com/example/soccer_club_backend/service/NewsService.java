@@ -21,7 +21,8 @@ public class NewsService {
     private final NewsRepository newsRepository;
     private final TagRepository tagRepository;
     private final PhotoRepository photoRepository;
-    private final FileStorageService fileStorageService;
+//    private final FileStorageService fileStorageService;
+    private final CloudinaryService cloudinaryService;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
@@ -53,8 +54,8 @@ public class NewsService {
 
         Photo photo = new Photo();
 //        photo.setPhotoId(Math.toIntExact(newsId));
-        String filePatch = fileStorageService.storeFile(file);
-        photo.setPath(filePatch);
+//        String filePatch = fileStorageService.storeFile(file);
+        photo.setPath(cloudinaryService.uploadFile(file, "folder_1"));
         photo.setTagId(tag.getTagId());
         photoRepository.save(photo);
 
@@ -62,7 +63,7 @@ public class NewsService {
         return newsRepository.save(savedNews);
     }
 
-    public News updateNews(int id, NewsDTO updatedNews, String filePatch) {
+    public News updateNews(int id, NewsDTO updatedNews, MultipartFile file) {
         News news = newsRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("News not found id : " + id)
         );
@@ -72,10 +73,10 @@ public class NewsService {
             tag = tagRepository.save(new Tag().setTagName(updatedNews.getTagName()));
         }
 
-        if (filePatch != null) {
+        if (file != null) {
             Photo photo = new Photo();
             photo.setPhotoId(Math.toIntExact(news.getNewsId()));
-            photo.setPath(filePatch);
+            photo.setPath(cloudinaryService.uploadFile(file, "folder_1"));
             photo.setTagId(tag.getTagId());
             photoRepository.save(photo);
             news.setPhoto(photo);

@@ -1,31 +1,13 @@
 package com.example.soccer_club_backend.controllers;
 
-import com.example.soccer_club_backend.dtos.PhotoDTO;
 import com.example.soccer_club_backend.models.Photo;
-import com.example.soccer_club_backend.repository.PhotoRepository;
 import com.example.soccer_club_backend.service.FileStorageService;
 import com.example.soccer_club_backend.service.PhotoService;
-import io.github.classgraph.Resource;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @RestController
 //@RequestMapping("/api/photos")
@@ -33,7 +15,7 @@ import java.nio.file.Paths;
 @AllArgsConstructor
 public class PhotoController {
     private final PhotoService photoRepository;
-    private final FileStorageService fileStorageService;
+//    private final FileStorageService fileStorageService;
 
     @PostMapping("/api/photos/upload")
 //    @Secured("ROLE_ADMIN")
@@ -41,16 +23,16 @@ public class PhotoController {
         return photoRepository.createPhoto(tag,file);
     }
 
-    @RequestMapping(value = "/upload2", method = RequestMethod.POST,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    @Secured("ROLE_ADMIN")
-    public String fileUpload(@RequestParam("file") MultipartFile file) {
-        return fileStorageService.storeFile(file);
-    }
+//    @RequestMapping(value = "/upload2", method = RequestMethod.POST,
+//            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+////    @Secured("ROLE_ADMIN")
+//    public String fileUpload(@RequestParam("file") MultipartFile file) {
+//        return fileStorageService.storeFile(file);
+//    }
 
 
-    @GetMapping("/res/{filename}")
-    public ResponseEntity<byte[]> serveFile(@PathVariable String filename) {
-        return fileStorageService.readFile(filename);
-    }
+//    @GetMapping("/res/{filename}")
+//    public ResponseEntity<byte[]> serveFile(@PathVariable String filename) {
+//        return fileStorageService.readFile(filename);
+//    }
 }

@@ -22,7 +22,6 @@ import java.util.List;
 public class TournamentController {
 
     private final TournamentService tournamentService;
-    private final FileStorageService fileStorageService;
 
     @GetMapping
     public ResponseEntity<List<TournamentGetInfo>> getAllTournament() {

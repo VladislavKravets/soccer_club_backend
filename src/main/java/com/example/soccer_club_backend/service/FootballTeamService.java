@@ -9,7 +9,6 @@ import com.example.soccer_club_backend.models.FootballTeam;
 import com.example.soccer_club_backend.models.Photo;
 import com.example.soccer_club_backend.models.Tag;
 import com.example.soccer_club_backend.repository.FootballTeamRepository;
-import com.example.soccer_club_backend.repository.PhotoRepository;
 import com.example.soccer_club_backend.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -24,7 +23,9 @@ import java.util.List;
 public class FootballTeamService {
     private final FootballTeamRepository footballTeamRepository;
     private final TagRepository tagRepository;
-    private final FileStorageService fileStorageService;
+//    private final FileStorageService fileStorageService;
+    private final CloudinaryService cloudinaryService;
+
     private final ModelMapper modelMapper = new ModelMapper();
 
     public List<FootballTeams> getAllFootballTeam() {
@@ -62,8 +63,8 @@ public class FootballTeamService {
 
         Photo photo = new Photo();
 
-        String fileName = fileStorageService.storeFile(file);
-        photo.setPath(fileName);
+//        String fileName = fileStorageService.storeFile(file);
+        photo.setPath(cloudinaryService.uploadFile(file, "folder_1"));
 
         photo.setTagId(tag.getTagId());
 
@@ -74,7 +75,7 @@ public class FootballTeamService {
         return footballTeamRepository.save(footballTeam);
     }
 
-    public FootballTeam updateFootballTeam(int teamId, FootballTeamDTO footballTeamDTO, String urlPatch) {
+    public FootballTeam updateFootballTeam(int teamId, FootballTeamDTO footballTeamDTO, MultipartFile file) {
         FootballTeam footballTeam = footballTeamRepository.findById(teamId).orElseThrow(
                 () -> new ResourceNotFoundException("football team not found id : " + teamId)
         );
@@ -86,9 +87,9 @@ public class FootballTeamService {
 
         footballTeam.setTag(tag);
 
-        if(urlPatch != null) {
+        if(file != null) {
             Photo photo = new Photo();
-            photo.setPath(urlPatch);
+            photo.setPath(cloudinaryService.uploadFile(file, "folder_1"));
             photo.setTagId(tag.getTagId());
             footballTeam.setPhoto(photo);
         }

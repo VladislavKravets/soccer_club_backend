@@ -23,7 +23,8 @@ public class TournamentService {
     private final TournamentRepository tournamentRepository;
     private final TagRepository tagRepository;
     private final PhotoRepository photoRepository;
-    private final FileStorageService fileStorageService;
+//    private final FileStorageService fileStorageService;
+    private final CloudinaryService cloudinaryService;
 
 
     private final ModelMapper modelMapper = new ModelMapper();
@@ -77,8 +78,8 @@ public class TournamentService {
         Photo photo = new Photo();
         photo.setPhotoId(Math.toIntExact(tournamentId));
 
-        String fileName = fileStorageService.storeFile(file);
-        photo.setPath(fileName);
+//        String fileName = fileStorageService.storeFile(file);
+        photo.setPath(cloudinaryService.uploadFile(file, "folder_1"));
         photo.setTagId(tag.getTagId());
 
         photoRepository.save(photo);
@@ -105,8 +106,8 @@ public class TournamentService {
             photoRepository.delete(tournament.getPhoto());
             Photo photo = new Photo();
             photo.setPhotoId(Math.toIntExact(tournament.getTournamentId()));
-            String filePath = fileStorageService.storeFile(file);
-            photo.setPath(filePath);
+//            String filePath = fileStorageService.storeFile(file);
+            photo.setPath(cloudinaryService.uploadFile(file, "folder_1"));
             photo.setTagId(tag.getTagId());
             photoRepository.save(photo);
             tournament.setPhoto(photo);
