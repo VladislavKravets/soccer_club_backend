@@ -1,5 +1,7 @@
 package com.example.soccer_club_backend.service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -9,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +21,9 @@ import java.util.Random;
 
 @Service
 public class FileStorageService {
+
+    @Value("${serv.url}")
+    private String url;
 
     //    @Value("${file.upload.directory}")
 //    private String uploadDirectory;
@@ -45,8 +53,9 @@ public class FileStorageService {
                 File dest = new File(filePath);
                 file.transferTo(dest);
 
-                return "http://localhost:8080/res/" + generatedFileName; // Здесь указывается базовый URL вашего бэкенда и путь к файлу
+                return url + "res/" + generatedFileName; // Здесь указывается базовый URL вашего бэкенда и путь к файлу
 //                return generatedFileName; // Здесь указывается базовый URL вашего бэкенда и путь к файлу
+
             }else
                 throw new IllegalArgumentException("Файл повинен бути з розширенням .jpg .png ");
         } catch (IOException e) {
