@@ -21,7 +21,8 @@ import java.util.List;
 public class PhotoService {
     private final PhotoRepository photoRepository;
     private final TagRepository tagRepository;
-    private final FileStorageService fileStorageService;
+//    private final FileStorageService fileStorageService;
+    private final CloudinaryService cloudinaryService;
 
 //    private final ModelMapper modelMapper = new ModelMapper();
 
@@ -33,10 +34,10 @@ public class PhotoService {
         if (tag == null) {
             throw new ResourceNotFoundException("Tag not found name : " + tagName);
         }
-        String filePatch = fileStorageService.storeFile(file);
+//        String filePatch = fileStorageService.storeFile(file);
         Photo photo = new Photo();
         photo.setTagId(tag.getTagId());
-        photo.setPath(filePatch);
+        photo.setPath(cloudinaryService.uploadFile(file, "folder_1"));
 
         return photoRepository.save(photo);
     }

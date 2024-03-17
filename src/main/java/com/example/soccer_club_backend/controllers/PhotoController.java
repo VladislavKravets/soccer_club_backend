@@ -15,6 +15,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,14 +35,15 @@ public class PhotoController {
     private final PhotoService photoRepository;
     private final FileStorageService fileStorageService;
 
-
     @PostMapping("/api/photos/upload")
+//    @Secured("ROLE_ADMIN")
     public Photo createPhoto(@RequestPart("file") MultipartFile file, @RequestPart("tag") String tag) {
         return photoRepository.createPhoto(tag,file);
     }
 
     @RequestMapping(value = "/upload2", method = RequestMethod.POST,
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    @Secured("ROLE_ADMIN")
     public String fileUpload(@RequestParam("file") MultipartFile file) {
         return fileStorageService.storeFile(file);
     }
