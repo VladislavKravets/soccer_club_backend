@@ -31,6 +31,9 @@ public class FootballTeamService {
     public List<FootballTeams> getAllFootballTeam() {
         return footballTeamRepository.getAllFootballTeams();
     }
+    public FootballTeam getFootballTeamById(int footballTeamId) {
+        return footballTeamRepository.findByTeamId(footballTeamId);
+    }
 
     public FootballTeam getFootballTeam(int footballTeamId) {
         return footballTeamRepository.findById(footballTeamId).orElseThrow(

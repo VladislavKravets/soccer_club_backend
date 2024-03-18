@@ -24,6 +24,7 @@ import java.util.Map;
 public interface FootballTeamRepository extends JpaRepository<FootballTeam, Integer> {
 
     FootballTeam findByTeamName(String teamName);
+    FootballTeam findByTeamId(int footballTeamId);
 
     @Query(nativeQuery = true, value = "SELECT \n" +
             "    ft.teamid AS \"teamId\",\n" +

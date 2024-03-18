@@ -30,6 +30,11 @@ public class FootballTeamController {
     }
 
     @GetMapping("/{footballTeamId}")
+    public FootballTeam getFootballTeamsById(int footballTeamId) {
+        return footballTeamService.getFootballTeamById(footballTeamId);
+    }
+
+    @GetMapping("/{footballTeamId}")
     public FootballTeamDTO getFootballTeamId(@PathVariable int footballTeamId) {
         return footballTeamMapper.toFootballTeam(footballTeamService.getFootballTeam(footballTeamId));
     }
