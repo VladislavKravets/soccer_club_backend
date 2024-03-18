@@ -29,8 +29,8 @@ public class FootballTeamController {
         return footballTeamService.getAllFootballTeam();
     }
 
-    @GetMapping("/{footballTeamId}")
-    public FootballTeam getFootballTeamsById(int footballTeamId) {
+    @GetMapping("/footballTeamById/{footballTeamId}")
+    public FootballTeam getFootballTeamById(int footballTeamId) {
         return footballTeamService.getFootballTeamById(footballTeamId);
     }
 
