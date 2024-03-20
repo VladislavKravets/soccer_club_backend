@@ -30,7 +30,7 @@ public class FootballTeamController {
     }
 
     @GetMapping("/footballTeamById/{footballTeamId}")
-    public FootballTeam getFootballTeamById(int footballTeamId) {
+    public FootballTeam getFootballTeamById(@PathVariable int footballTeamId) {
         return footballTeamService.getFootballTeamById(footballTeamId);
     }
 
