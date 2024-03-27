@@ -89,6 +89,7 @@ public class FootballTeamService {
         modelMapper.map(footballTeamDTO,footballTeam);
 
         footballTeam.setTag(tag);
+        footballTeam.setTeamId(teamId);
 
         if(file != null) {
             Photo photo = new Photo();

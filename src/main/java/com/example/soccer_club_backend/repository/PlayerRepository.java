@@ -13,6 +13,10 @@ import java.util.stream.Collectors;
 
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Integer> {
+
+    @Query("SELECT p FROM Player p WHERE p.teamId = ?1 AND p.active = true")
+    List<Player> findActivePlayersByTeamId(int teamId);
+
     @Query(nativeQuery = true, value = "SELECT\n" +
             "    p.playerid AS playerId,\n" +
             "    CONCAT(p.firstname, ' ', p.lastname) AS playerName,\n" +

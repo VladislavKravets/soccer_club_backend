@@ -56,9 +56,9 @@ public class FootballTeamController {
 
     @PutMapping("/{footballTeamId}")
     @Secured("ROLE_ADMIN")
-    public FootballTeam updateTeam(@PathVariable int footballTeamId, @RequestBody @Valid FootballTeamDTO footballTeamDTO,
-                                   @RequestPart("file") MultipartFile file) {
-        return footballTeamService.updateFootballTeam(footballTeamId, footballTeamDTO,file);
+    public FootballTeam updateTeam(@PathVariable int footballTeamId, @RequestPart @Valid FootballTeamDTO footballTeam,
+                                   @RequestPart(value = "file", required = false) MultipartFile file) {
+        return footballTeamService.updateFootballTeam(footballTeamId, footballTeam, file);
     }
 
     @DeleteMapping("/{footballTeamId}")

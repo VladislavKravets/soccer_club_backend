@@ -37,6 +37,11 @@ public class PlayerController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/team/{teamId}")
+    public List<Player> getPlayerByTeamId(@PathVariable int teamId) {
+        return playerService.getPlayerByTeamId(teamId);
+    }
+
     @PostMapping
     @Secured("ROLE_ADMIN")
     public ResponseEntity<Player> createPlayer(@RequestBody @Valid PlayerDTO player) {

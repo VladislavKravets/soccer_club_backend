@@ -28,6 +28,9 @@ public class PlayerService {
     public Optional<Player> getPlayerId(int playerId) {
         return playerRepository.findById(playerId);
     }
+    public List<Player> getPlayerByTeamId(int teamId) {
+        return playerRepository.findActivePlayersByTeamId(teamId);
+    }
 
     public List<PlayerStatsDTO> getPlayerStats() {
         return playerRepository.getPlayerStatsDTO();
