@@ -16,6 +16,7 @@ public class CorsConfig {
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:3000"); // Update with your React app's origin
         config.addAllowedOrigin("http://localhost:3001"); // Update with your React app's origin
+        config.addAllowedOrigin("https://soccer-club-13cw2d1o2-vladislavkravets-projects.vercel.app");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
